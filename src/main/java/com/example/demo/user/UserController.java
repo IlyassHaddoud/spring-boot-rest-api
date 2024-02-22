@@ -1,12 +1,8 @@
 package com.example.demo.user;
 
-import com.example.demo.user.User;
-import com.example.demo.user.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -20,9 +16,15 @@ public class UserController {
         return this.userService.getUsers();
     }
 
-    @PostMapping("/users")
-    void addUser(@RequestBody User user)
+    @GetMapping("/users/{id}")
+    UserDTO getUserById(@PathVariable("id") int id)
     {
-        this.userService.PostUser(user);
+        return this.userService.getUserById((id));
+    }
+
+    @PostMapping("/users")
+    void addUser(@RequestBody @Valid UserDTO userDTO)
+    {
+        this.userService.PostUser(userDTO);
     }
 }
